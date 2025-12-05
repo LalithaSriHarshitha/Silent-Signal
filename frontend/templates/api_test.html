@@ -1,0 +1,248 @@
+{% extends "base.html" %}
+
+{% block title %}API Testing - Silent Signal{% endblock %}
+
+{% block content %}
+<div class="max-w-6xl mx-auto py-8">
+    <h1 class="text-4xl font-bold mb-8">🧪 API Testing Dashboard</h1>
+    
+    <!-- Health Check Section -->
+    <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <h2 class="text-2xl font-bold mb-4">Health Check</h2>
+        <button onclick="testHealth()" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700">
+            Test Health Endpoint
+        </button>
+        <div id="health-result" class="mt-4 p-4 bg-gray-50 rounded hidden">
+            <pre id="health-output" class="text-sm"></pre>
+        </div>
+    </div>
+    
+    <!-- Status Check Section -->
+    <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <h2 class="text-2xl font-bold mb-4">System Status</h2>
+        <button onclick="testStatus()" class="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700">
+            Check System Status
+        </button>
+        <div id="status-result" class="mt-4 p-4 bg-gray-50 rounded hidden">
+            <pre id="status-output" class="text-sm"></pre>
+        </div>
+    </div>
+    
+    <!-- WebSocket Test Section -->
+    <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <h2 class="text-2xl font-bold mb-4">WebSocket Connection</h2>
+        <div class="space-x-4">
+            <button onclick="connectWebSocket()" class="bg-purple-600 text-white px-6 py-2 rounded hover:bg-purple-700">
+                Connect WebSocket
+            </button>
+            <button onclick="sendTestGesture()" class="bg-indigo-600 text-white px-6 py-2 rounded hover:bg-indigo-700" id="send-gesture-btn" disabled>
+                Send Test Gesture
+            </button>
+            <button onclick="disconnectWebSocket()" class="bg-red-600 text-white px-6 py-2 rounded hover:bg-red-700" id="disconnect-btn" disabled>
+                Disconnect
+            </button>
+        </div>
+        <div id="ws-status" class="mt-4 p-3 bg-gray-100 rounded">
+            <span class="font-semibold">Status:</span> <span id="ws-status-text">Disconnected</span>
+        </div>
+        <div id="ws-result" class="mt-4 p-4 bg-gray-50 rounded hidden">
+            <h3 class="font-bold mb-2">WebSocket Messages:</h3>
+            <div id="ws-output" class="text-sm space-y-2"></div>
+        </div>
+    </div>
+    
+    <!-- Gesture Simulation Section -->
+    <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <h2 class="text-2xl font-bold mb-4">Gesture Simulator</h2>
+        <div class="grid md:grid-cols-3 gap-4 mb-4">
+            <div>
+                <label class="block text-sm font-medium mb-2">Gesture Type</label>
+                <select id="gesture-type" class="w-full border rounded px-3 py-2">
+                    <option value="tap">Tap</option>
+                    <option value="blink">Blink</option>
+                    <option value="micro_gesture">Micro Gesture</option>
+                </select>
+            </div>
+            <div>
+                <label class="block text-sm font-medium mb-2">User ID</label>
+                <input type="number" id="user-id" value="1" class="w-full border rounded px-3 py-2">
+            </div>
+            <div>
+                <label class="block text-sm font-medium mb-2">Confidence</label>
+                <input type="number" id="confidence" value="0.85" step="0.01" min="0" max="1" class="w-full border rounded px-3 py-2">
+            </div>
+        </div>
+        <button onclick="simulateGesture()" class="bg-orange-600 text-white px-6 py-2 rounded hover:bg-orange-700">
+            Simulate Gesture
+        </button>
+        <div id="gesture-result" class="mt-4 p-4 bg-gray-50 rounded hidden">
+            <pre id="gesture-output" class="text-sm"></pre>
+        </div>
+    </div>
+    
+    <!-- Quick Links -->
+    <div class="bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg shadow-md p-6 text-white">
+        <h2 class="text-2xl font-bold mb-4">📚 Quick Links</h2>
+        <div class="grid md:grid-cols-3 gap-4">
+            <a href="/api/docs" target="_blank" class="bg-white bg-opacity-20 hover:bg-opacity-30 rounded p-4 block">
+                <div class="font-bold mb-1">Swagger UI</div>
+                <div class="text-sm opacity-90">Interactive API documentation</div>
+            </a>
+            <a href="/api/redoc" target="_blank" class="bg-white bg-opacity-20 hover:bg-opacity-30 rounded p-4 block">
+                <div class="font-bold mb-1">ReDoc</div>
+                <div class="text-sm opacity-90">Alternative API docs</div>
+            </a>
+            <a href="/dashboard" class="bg-white bg-opacity-20 hover:bg-opacity-30 rounded p-4 block">
+                <div class="font-bold mb-1">Dashboard</div>
+                <div class="text-sm opacity-90">Main application</div>
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+let ws = null;
+
+async function testHealth() {
+    const resultDiv = document.getElementById('health-result');
+    const outputDiv = document.getElementById('health-output');
+    
+    try {
+        const response = await fetch('/api/health');
+        const data = await response.json();
+        
+        outputDiv.textContent = JSON.stringify(data, null, 2);
+        resultDiv.classList.remove('hidden');
+        resultDiv.classList.add('bg-green-50', 'border', 'border-green-200');
+    } catch (error) {
+        outputDiv.textContent = `Error: ${error.message}`;
+        resultDiv.classList.remove('hidden');
+        resultDiv.classList.add('bg-red-50', 'border', 'border-red-200');
+    }
+}
+
+async function testStatus() {
+    const resultDiv = document.getElementById('status-result');
+    const outputDiv = document.getElementById('status-output');
+    
+    try {
+        const response = await fetch('/api/status');
+        const data = await response.json();
+        
+        outputDiv.textContent = JSON.stringify(data, null, 2);
+        resultDiv.classList.remove('hidden');
+        resultDiv.classList.add('bg-green-50', 'border', 'border-green-200');
+    } catch (error) {
+        outputDiv.textContent = `Error: ${error.message}`;
+        resultDiv.classList.remove('hidden');
+        resultDiv.classList.add('bg-red-50', 'border', 'border-red-200');
+    }
+}
+
+function connectWebSocket() {
+    const wsUrl = `ws://${window.location.host}/api/gestures/ws`;
+    const statusText = document.getElementById('ws-status-text');
+    const resultDiv = document.getElementById('ws-result');
+    const outputDiv = document.getElementById('ws-output');
+    
+    statusText.textContent = 'Connecting...';
+    statusText.className = 'text-yellow-600';
+    
+    ws = new WebSocket(wsUrl);
+    
+    ws.onopen = () => {
+        statusText.textContent = 'Connected ✓';
+        statusText.className = 'text-green-600 font-bold';
+        document.getElementById('send-gesture-btn').disabled = false;
+        document.getElementById('disconnect-btn').disabled = false;
+        resultDiv.classList.remove('hidden');
+        addWSMessage('Connected to WebSocket', 'success');
+    };
+    
+    ws.onmessage = (event) => {
+        const data = JSON.parse(event.data);
+        addWSMessage(`Received: ${JSON.stringify(data, null, 2)}`, 'info');
+    };
+    
+    ws.onerror = (error) => {
+        addWSMessage(`Error: ${error}`, 'error');
+        statusText.textContent = 'Error';
+        statusText.className = 'text-red-600';
+    };
+    
+    ws.onclose = () => {
+        statusText.textContent = 'Disconnected';
+        statusText.className = 'text-gray-600';
+        document.getElementById('send-gesture-btn').disabled = true;
+        document.getElementById('disconnect-btn').disabled = true;
+        addWSMessage('Disconnected from WebSocket', 'warning');
+    };
+}
+
+function sendTestGesture() {
+    if (!ws || ws.readyState !== WebSocket.OPEN) {
+        alert('WebSocket is not connected');
+        return;
+    }
+    
+    const gestureData = {
+        user_id: parseInt(document.getElementById('user-id').value),
+        gesture_type: document.getElementById('gesture-type').value,
+        data: {
+            x: Math.random() * 100,
+            y: Math.random() * 100,
+            pressure: parseFloat(document.getElementById('confidence').value),
+            timestamp: new Date().toISOString()
+        }
+    };
+    
+    ws.send(JSON.stringify(gestureData));
+    addWSMessage(`Sent: ${JSON.stringify(gestureData, null, 2)}`, 'sent');
+}
+
+function disconnectWebSocket() {
+    if (ws) {
+        ws.close();
+        ws = null;
+    }
+}
+
+function addWSMessage(message, type) {
+    const outputDiv = document.getElementById('ws-output');
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `p-2 rounded ${
+        type === 'success' ? 'bg-green-100 text-green-800' :
+        type === 'error' ? 'bg-red-100 text-red-800' :
+        type === 'warning' ? 'bg-yellow-100 text-yellow-800' :
+        type === 'sent' ? 'bg-blue-100 text-blue-800' :
+        'bg-gray-100 text-gray-800'
+    }`;
+    messageDiv.innerHTML = `<pre class="text-xs">${message}</pre>`;
+    outputDiv.insertBefore(messageDiv, outputDiv.firstChild);
+    
+    // Keep only last 10 messages
+    while (outputDiv.children.length > 10) {
+        outputDiv.removeChild(outputDiv.lastChild);
+    }
+}
+
+async function simulateGesture() {
+    const resultDiv = document.getElementById('gesture-result');
+    const outputDiv = document.getElementById('gesture-output');
+    
+    const gestureData = {
+        gesture_type: document.getElementById('gesture-type').value,
+        raw_data: {
+            x: Math.random() * 100,
+            y: Math.random() * 100,
+            pressure: parseFloat(document.getElementById('confidence').value),
+            timestamp: new Date().toISOString()
+        }
+    };
+    
+    outputDiv.textContent = 'Simulating gesture...\n\n' + JSON.stringify(gestureData, null, 2);
+    resultDiv.classList.remove('hidden');
+    resultDiv.classList.add('bg-blue-50', 'border', 'border-blue-200');
+}
+</script>
+{% endblock %}

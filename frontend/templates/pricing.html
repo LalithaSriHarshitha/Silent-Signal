@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block title %}Pricing - Silent Signal{% endblock %}
+
+{% block content %}
+<div class="text-center mb-12">
+    <h1 class="text-4xl font-bold mb-4">Choose Your Plan</h1>
+    <p class="text-xl text-gray-600">Start free, upgrade when you need more</p>
+</div>
+
+<div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+    <!-- Free Tier -->
+    <div class="bg-white rounded-lg shadow-lg p-8 border-2 border-gray-200">
+        <h2 class="text-2xl font-bold mb-4">Free</h2>
+        <div class="text-4xl font-bold mb-6">$0<span class="text-lg text-gray-600">/month</span></div>
+        
+        <ul class="space-y-3 mb-8">
+            <li class="flex items-center">
+                <span class="text-green-500 mr-2">✓</span>
+                100 gestures per day
+            </li>
+            <li class="flex items-center">
+                <span class="text-green-500 mr-2">✓</span>
+                Basic gesture types
+            </li>
+            <li class="flex items-center">
+                <span class="text-green-500 mr-2">✓</span>
+                Standard voice
+            </li>
+            <li class="flex items-center">
+                <span class="text-green-500 mr-2">✓</span>
+                7-day history
+            </li>
+        </ul>
+        
+        <button class="w-full bg-gray-200 text-gray-800 py-3 rounded-lg hover:bg-gray-300">
+            Current Plan
+        </button>
+    </div>
+    
+    <!-- Premium Tier -->
+    <div class="bg-white rounded-lg shadow-lg p-8 border-2 border-blue-600">
+        <div class="bg-blue-600 text-white text-sm font-bold px-3 py-1 rounded-full inline-block mb-4">
+            RECOMMENDED
+        </div>
+        <h2 class="text-2xl font-bold mb-4">Premium</h2>
+        <div class="text-4xl font-bold mb-6">$9<span class="text-lg text-gray-600">/month</span></div>
+        
+        <ul class="space-y-3 mb-8">
+            <li class="flex items-center">
+                <span class="text-green-500 mr-2">✓</span>
+                Unlimited gestures
+            </li>
+            <li class="flex items-center">
+                <span class="text-green-500 mr-2">✓</span>
+                All gesture types
+            </li>
+            <li class="flex items-center">
+                <span class="text-green-500 mr-2">✓</span>
+                Premium voices
+            </li>
+            <li class="flex items-center">
+                <span class="text-green-500 mr-2">✓</span>
+                Unlimited history
+            </li>
+            <li class="flex items-center">
+                <span class="text-green-500 mr-2">✓</span>
+                Advanced analytics
+            </li>
+            <li class="flex items-center">
+                <span class="text-green-500 mr-2">✓</span>
+                Priority support
+            </li>
+        </ul>
+        
+        <button id="upgrade-btn" class="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700">
+            Upgrade to Premium
+        </button>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="/static/js/pricing.js"></script>
+{% endblock %}

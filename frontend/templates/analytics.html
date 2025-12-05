@@ -1,0 +1,147 @@
+{% extends "base.html" %}
+
+{% block title %}Analytics - Silent Signal{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto">
+    <div class="flex justify-between items-center mb-8">
+        <h1 class="text-3xl font-bold">Analytics Dashboard</h1>
+        <div class="flex space-x-2">
+            <a href="/dashboard" class="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700">
+                Back to Dashboard
+            </a>
+            <select id="time-range" class="px-4 py-2 border rounded-lg">
+                <option value="7">Last 7 Days</option>
+                <option value="30" selected>Last 30 Days</option>
+                <option value="90">Last 90 Days</option>
+            </select>
+            <button id="refresh-data" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                Refresh
+            </button>
+        </div>
+    </div>
+    
+    <!-- Stats Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div class="bg-white rounded-lg shadow-lg p-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-gray-500 text-sm">Total Communications</p>
+                    <p class="text-3xl font-bold mt-2" id="stat-total">0</p>
+                </div>
+                <div class="bg-blue-100 p-3 rounded-full">
+                    <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path>
+                    </svg>
+                </div>
+            </div>
+            <p class="text-sm text-green-600 mt-2">↑ <span id="stat-total-change">0%</span> from last period</p>
+        </div>
+        
+        <div class="bg-white rounded-lg shadow-lg p-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-gray-500 text-sm">Gestures Detected</p>
+                    <p class="text-3xl font-bold mt-2" id="stat-gestures">0</p>
+                </div>
+                <div class="bg-green-100 p-3 rounded-full">
+                    <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11.5V14m0-2.5v-6a1.5 1.5 0 113 0m-3 6a1.5 1.5 0 00-3 0v2a7.5 7.5 0 0015 0v-5a1.5 1.5 0 00-3 0m-6-3V11m0-5.5v-1a1.5 1.5 0 013 0v1m0 0V11m0-5.5a1.5 1.5 0 013 0v3m0 0V11"></path>
+                    </svg>
+                </div>
+            </div>
+            <p class="text-sm text-green-600 mt-2">↑ <span id="stat-gestures-change">0%</span> from last period</p>
+        </div>
+        
+        <div class="bg-white rounded-lg shadow-lg p-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-gray-500 text-sm">Avg. Confidence</p>
+                    <p class="text-3xl font-bold mt-2" id="stat-confidence">0%</p>
+                </div>
+                <div class="bg-purple-100 p-3 rounded-full">
+                    <svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                    </svg>
+                </div>
+            </div>
+            <p class="text-sm text-green-600 mt-2">↑ <span id="stat-confidence-change">0%</span> from last period</p>
+        </div>
+        
+        <div class="bg-white rounded-lg shadow-lg p-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-gray-500 text-sm">Active Sessions</p>
+                    <p class="text-3xl font-bold mt-2" id="stat-sessions">0</p>
+                </div>
+                <div class="bg-orange-100 p-3 rounded-full">
+                    <svg class="w-8 h-8 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                </div>
+            </div>
+            <p class="text-sm text-blue-600 mt-2">↑ <span id="stat-sessions-change">0%</span> from last period</p>
+        </div>
+    </div>
+    
+    <!-- Charts Grid (2x2) -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+        <div class="bg-white rounded-lg shadow-lg p-6">
+            <h2 class="text-xl font-bold mb-4">Communication Activity</h2>
+            <div style="height: 200px;">
+                <canvas id="activity-chart"></canvas>
+            </div>
+        </div>
+        
+        <div class="bg-white rounded-lg shadow-lg p-6">
+            <h2 class="text-xl font-bold mb-4">Gesture Distribution</h2>
+            <div style="height: 200px;">
+                <canvas id="gesture-chart"></canvas>
+            </div>
+        </div>
+        
+        <div class="bg-white rounded-lg shadow-lg p-6">
+            <h2 class="text-xl font-bold mb-4">Confidence Levels</h2>
+            <div style="height: 200px;">
+                <canvas id="confidence-chart"></canvas>
+            </div>
+        </div>
+        
+        <div class="bg-white rounded-lg shadow-lg p-6">
+            <h2 class="text-xl font-bold mb-4">Usage by Hour</h2>
+            <div style="height: 200px;">
+                <canvas id="hourly-chart"></canvas>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Recent Activity Table -->
+    <div class="bg-white rounded-lg shadow-lg p-6">
+        <h2 class="text-xl font-bold mb-4">Recent Activity</h2>
+        <div class="overflow-x-auto">
+            <table class="w-full">
+                <thead>
+                    <tr class="border-b">
+                        <th class="text-left py-3 px-4">Time</th>
+                        <th class="text-left py-3 px-4">Type</th>
+                        <th class="text-left py-3 px-4">Gesture</th>
+                        <th class="text-left py-3 px-4">Confidence</th>
+                        <th class="text-left py-3 px-4">Output</th>
+                        <th class="text-left py-3 px-4">Status</th>
+                    </tr>
+                </thead>
+                <tbody id="activity-table">
+                    <tr>
+                        <td colspan="6" class="text-center py-8 text-gray-400">Loading activity...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="/static/js/dashboard-analytics.js"></script>
+{% endblock %}

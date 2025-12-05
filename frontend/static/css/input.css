@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom styles */
+.gesture-indicator {
+    @apply w-4 h-4 rounded-full animate-pulse;
+}
+
+.gesture-active {
+    @apply bg-green-500;
+}
+
+.gesture-inactive {
+    @apply bg-gray-300;
+}

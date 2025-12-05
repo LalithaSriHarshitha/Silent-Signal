@@ -1,0 +1,14 @@
+{
+  "name": "silent-signal-frontend",
+  "version": "1.0.0",
+  "description": "Frontend tooling for Silent Signal",
+  "scripts": {
+    "build:css": "npx tailwindcss -i ./static/css/input.css -o ./static/css/output.css --minify",
+    "watch:css": "npx tailwindcss -i ./static/css/input.css -o ./static/css/output.css --watch"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.0",
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8.4.32"
+  }
+}

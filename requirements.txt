@@ -1,0 +1,61 @@
+# Silent Signal - Python Dependencies
+
+# Web Framework
+fastapi==0.109.0
+uvicorn[standard]==0.27.0
+python-multipart==0.0.6
+jinja2==3.1.3
+
+# Database
+sqlalchemy==2.0.25
+psycopg2-binary==2.9.9
+alembic==1.13.1
+
+# Redis
+redis==5.0.1
+hiredis==2.3.2
+
+# Authentication
+workos==4.5.0
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
+
+# HTTP Client
+httpx==0.26.0
+aiohttp==3.9.1
+
+# Validation & Settings
+pydantic==2.5.3
+pydantic-settings==2.1.0
+python-dotenv==1.0.0
+
+# AI/ML Integrations
+openai==1.10.0
+anthropic==0.8.1
+
+# Audio Processing
+elevenlabs==0.2.27
+
+# Payments
+stripe==7.11.0
+
+# WebSockets
+websockets==12.0
+
+# Utilities
+python-dateutil==2.8.2
+pytz==2023.3
+ujson==5.9.0
+
+# Monitoring & Logging
+structlog==24.1.0
+python-json-logger==2.0.7
+
+# Security
+cryptography==42.0.0
+
+# Rate Limiting
+slowapi==0.1.9
+
+# CORS
+starlette==0.35.1

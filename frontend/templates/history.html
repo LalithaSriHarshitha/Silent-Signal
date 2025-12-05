@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}History - Silent Signal{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+    <h1 class="text-3xl font-bold mb-8">Gesture History</h1>
+    
+    <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+        <div class="flex items-center space-x-4 mb-6">
+            <input type="text" id="search-input" placeholder="Search gestures..." 
+                   class="flex-1 border rounded-lg px-4 py-2">
+            <button id="search-btn" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700">
+                Search
+            </button>
+        </div>
+        
+        <div id="history-list" class="space-y-4">
+            <!-- History items will be loaded here -->
+        </div>
+        
+        <div id="loading" class="text-center py-8 hidden">
+            <p class="text-gray-400">Loading...</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="/static/js/history.js"></script>
+{% endblock %}

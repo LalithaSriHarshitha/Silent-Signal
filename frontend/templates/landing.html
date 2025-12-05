@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}Silent Signal - Gesture-Based Communication{% endblock %}
+
+{% block content %}
+<div class="text-center py-20">
+    <h1 class="text-5xl font-bold text-gray-900 mb-6">
+        Communicate Without Words
+    </h1>
+    <p class="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+        Silent Signal uses AI-powered gesture recognition to help you communicate through subtle movements, blinks, and taps.
+    </p>
+    <div class="space-x-4">
+        <a href="/capture" class="bg-blue-600 text-white px-8 py-3 rounded-lg text-lg hover:bg-blue-700 inline-block">
+            Get Started
+        </a>
+        <a href="#features" class="bg-gray-200 text-gray-800 px-8 py-3 rounded-lg text-lg hover:bg-gray-300 inline-block">
+            Learn More
+        </a>
+    </div>
+</div>
+
+<div id="features" class="grid md:grid-cols-3 gap-8 py-16">
+    <div class="bg-white p-8 rounded-lg shadow-md">
+        <div class="text-4xl mb-4">👁️</div>
+        <h3 class="text-xl font-bold mb-2">Blink Detection</h3>
+        <p class="text-gray-600">Communicate with simple eye blinks detected through your camera</p>
+    </div>
+    
+    <div class="bg-white p-8 rounded-lg shadow-md">
+        <div class="text-4xl mb-4">👆</div>
+        <h3 class="text-xl font-bold mb-2">Tap Gestures</h3>
+        <p class="text-gray-600">Use finger taps and micro-movements for precise control</p>
+    </div>
+    
+    <div class="bg-white p-8 rounded-lg shadow-md">
+        <div class="text-4xl mb-4">🔊</div>
+        <h3 class="text-xl font-bold mb-2">Voice Output</h3>
+        <p class="text-gray-600">Your gestures are converted to natural speech instantly</p>
+    </div>
+</div>
+
+<div class="bg-blue-50 rounded-lg p-12 text-center my-16">
+    <h2 class="text-3xl font-bold mb-4">Powered by Leading AI Technologies</h2>
+    <div class="flex flex-wrap justify-center gap-6 mt-8">
+        <span class="bg-white px-6 py-3 rounded-lg shadow">WorkOS</span>
+        <span class="bg-white px-6 py-3 rounded-lg shadow">Cerebras AI</span>
+        <span class="bg-white px-6 py-3 rounded-lg shadow">ElevenLabs</span>
+        <span class="bg-white px-6 py-3 rounded-lg shadow">Raindrop AI</span>
+        <span class="bg-white px-6 py-3 rounded-lg shadow">Stripe</span>
+        <span class="bg-white px-6 py-3 rounded-lg shadow">Searchable</span>
+    </div>
+</div>
+{% endblock %}

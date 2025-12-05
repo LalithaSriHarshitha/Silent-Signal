@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}Settings - Silent Signal{% endblock %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto">
+    <h1 class="text-3xl font-bold mb-8">Settings</h1>
+    
+    <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+        <h2 class="text-xl font-bold mb-4">Profile</h2>
+        <form id="profile-form" class="space-y-4">
+            <div>
+                <label class="block text-sm font-medium mb-2">Full Name</label>
+                <input type="text" id="full-name" class="w-full border rounded-lg px-4 py-2">
+            </div>
+            <div>
+                <label class="block text-sm font-medium mb-2">Email</label>
+                <input type="email" id="email" class="w-full border rounded-lg px-4 py-2" disabled>
+            </div>
+            <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700">
+                Save Changes
+            </button>
+        </form>
+    </div>
+    
+    <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+        <h2 class="text-xl font-bold mb-4">Gesture Preferences</h2>
+        <form id="preferences-form" class="space-y-4">
+            <div>
+                <label class="block text-sm font-medium mb-2">Gesture Sensitivity</label>
+                <select id="sensitivity" class="w-full border rounded-lg px-4 py-2">
+                    <option value="low">Low</option>
+                    <option value="medium" selected>Medium</option>
+                    <option value="high">High</option>
+                </select>
+            </div>
+            <div>
+                <label class="block text-sm font-medium mb-2">Voice</label>
+                <select id="voice-id" class="w-full border rounded-lg px-4 py-2">
+                    <option value="21m00Tcm4TlvDq8ikWAM">Default Voice</option>
+                </select>
+            </div>
+            <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700">
+                Save Preferences
+            </button>
+        </form>
+    </div>
+    
+    <div class="bg-white rounded-lg shadow-lg p-6">
+        <h2 class="text-xl font-bold mb-4">Subscription</h2>
+        <div id="subscription-info">
+            <p class="text-gray-600 mb-4">Current Plan: <strong id="current-plan">Free</strong></p>
+            <a href="/pricing" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 inline-block">
+                Upgrade to Premium
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="/static/js/settings.js"></script>
+{% endblock %}
